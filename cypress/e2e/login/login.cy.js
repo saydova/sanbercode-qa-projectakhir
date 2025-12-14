@@ -12,6 +12,7 @@ describe("OrangeHRM - Login Feature", () => {
   });
 
   it("TC001 - Login Success with valid credential", () => {
+    cy.intercept("POST", "**/auth/validate").as("loginSuccess");
     cy.login(
       loginData.validUser.username,
       loginData.validUser.password
@@ -21,6 +22,7 @@ describe("OrangeHRM - Login Feature", () => {
   });
 
   it("TC002 - Login Failed with invalid username", () => {
+    cy.intercept("POST", "**/auth/validate").as("invalidUser");
     cy.login(
       loginData.invalidUser.username,
       loginData.validUser.password
@@ -30,6 +32,7 @@ describe("OrangeHRM - Login Feature", () => {
   });
 
   it("TC003 - Login Failed with invalid password", () => {
+    cy.intercept("POST", "**/auth/validate").as("invalidUser");
     cy.login(
       loginData.validUser.username,
       loginData.invalidUser.password

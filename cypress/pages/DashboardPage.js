@@ -1,11 +1,30 @@
 import BasePage from "./BasePage";
 
 class DashboardPage extends BasePage {
-  dashboardHeader = "h6.oxd-text--h6";
+  // sidebar menu item (by text)
+  sidebarItem = ".oxd-main-menu-item--name";
 
-  verifyDashboardLoaded() {
-    this.verifyVisible(this.dashboardHeader);
-    cy.contains("Dashboard").should("be.visible");
+  // top breadcrumb title
+  breadcrumbTitle = "h6.oxd-topbar-header-breadcrumb-module";
+
+  /**
+   * Click sidebar menu by name
+   * @param {string} menuName
+   */
+  clickMenu(menuName) {
+    cy.contains(this.sidebarItem, menuName)
+      .should("be.visible")
+      .click();
+  }
+
+  /**
+   * Validate landing page by breadcrumb title
+   * @param {string} expectedTitle
+   */
+  verifyLanding(expectedTitle) {
+    cy.get(this.breadcrumbTitle)
+      .should("be.visible")
+      .and("have.text", expectedTitle);
   }
 }
 
