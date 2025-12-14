@@ -15,3 +15,9 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+Cypress.on("fail", (error, runnable) => {
+    const screenshotFileName = `${runnable.parent.title} -- ${runnable.title} (failed)`;
+    cy.screenshot(screenshotFileName);
+    throw error; // tetap lempar error biar test gagal
+  });
+  
