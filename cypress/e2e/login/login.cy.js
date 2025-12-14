@@ -11,7 +11,7 @@ describe("OrangeHRM - Login Feature", () => {
     cy.openLogin();
   });
 
-  it("TC001 - Login Success with valid credential", () => {
+  it("SCN001 - Login Success with valid credential - TC001", () => {
     cy.intercept("POST", "**/auth/validate").as("loginSuccess");
     cy.login(
       loginData.validUser.username,
@@ -21,7 +21,7 @@ describe("OrangeHRM - Login Feature", () => {
     cy.url().should("include", "/dashboard");
   });
 
-  it("TC002 - Login Failed with invalid username", () => {
+  it("SCN001 - Login Failed with invalid username - TC002", () => {
     cy.intercept("POST", "**/auth/validate").as("invalidUser");
     cy.login(
       loginData.invalidUser.username,
@@ -31,7 +31,7 @@ describe("OrangeHRM - Login Feature", () => {
     LoginPage.verifyInvalidCredential();
   });
 
-  it("TC003 - Login Failed with invalid password", () => {
+  it("SCN001 - Login Failed with invalid password - TC003", () => {
     cy.intercept("POST", "**/auth/validate").as("invalidUser");
     cy.login(
       loginData.validUser.username,
@@ -41,19 +41,19 @@ describe("OrangeHRM - Login Feature", () => {
     LoginPage.verifyInvalidCredential();
   });
 
-  it("TC004 - Login Failed with empty username", () => {
+  it("SCN001 - Login Failed with empty username - TC004", () => {
     cy.login(null, loginData.validUser.password);
 
     LoginPage.verifyRequiredOrInlineError();
   });
 
-  it("TC005 - Login Failed with empty password", () => {
+  it("SCN001 - Login Failed with empty password - TC005", () => {
     cy.login(loginData.validUser.username, null);
 
     LoginPage.verifyRequiredOrInlineError();
   });
 
-  it("TC006 - Login Failed with both fields empty", () => {
+  it("SCN001 - Login Failed with both fields empty - TC006", () => {
     cy.login(null, null);
 
     LoginPage.verifyRequiredOrInlineError();
@@ -63,7 +63,7 @@ describe("OrangeHRM - Login Feature", () => {
   // Validation-focused tests
   // -------------------------
 
-  it("TC007 - Username must not accept symbol characters", () => {
+  it("SCN001 - Username must not accept symbol characters - TC007", () => {
     const symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
     cy.get("input[name='username']")
@@ -76,7 +76,7 @@ describe("OrangeHRM - Login Feature", () => {
       .should("not.match", symbolRegex);
   });
 
-  it("TC008 - Username must not accept emoticons / non-ascii characters", () => {
+  it("SCN001 - Username must not accept emoticons / non-ascii characters - TC008", () => {
     cy.get("input[name='username']")
       .clear()
       .type(loginData.emojiUsername)
@@ -87,7 +87,7 @@ describe("OrangeHRM - Login Feature", () => {
       .should("not.match", /[^\x00-\x7F]/);
   });
 
-  it("TC009 - Username must not contain spaces between characters", () => {
+  it("SCN001 - Username must not contain spaces between characters - TC009", () => {
     cy.get("input[name='username']")
       .clear()
       .type(loginData.spacedUsername)
@@ -98,7 +98,7 @@ describe("OrangeHRM - Login Feature", () => {
       .should("not.include", " ");
   });
 
-  it("TC010 - Username must not exceed 200 characters", () => {
+  it("SCN001 - Username must not exceed 200 characters - TC010", () => {
     const longUsername = loginData.longUsername.repeat(3);
 
     cy.get("input[name='username']")
@@ -110,5 +110,18 @@ describe("OrangeHRM - Login Feature", () => {
       .invoke("val")
       .its("length")
       .should("be.lte", 200);
+  });
+
+  it("SCN002 - Username Valid - TC001", () => {
+    LoginPage.clickForgotPassword()
+    LoginPage.inputUsername(loginData.validUser.username)
+    LoginPage.submit()
+    LoginPage.verifyChangePasswordSuccesfully()
+  });
+
+  it("SCN002 - Username Empty - TC001", () => {
+    LoginPage.clickForgotPassword()
+    LoginPage.submit()
+    LoginPage.verifyRequiredOrInlineError()
   });
 });

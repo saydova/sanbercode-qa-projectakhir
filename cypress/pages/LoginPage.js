@@ -1,13 +1,16 @@
 import BasePage from "./BasePage";
 
 class LoginPage extends BasePage {
-  username = "input[name='username']";
-  password = "input[name='password']";
-  loginBtn = "button[type='submit']";
-
-  errorAlert =
-    "div[role='alert'], .oxd-input-field-error, .error, .validation-error";
-  requiredText = "Required";
+  constructor() {
+    super(); 
+    this.username = "input[name='username']";
+    this.password = "input[name='password']";
+    this.loginBtn = "button[type='submit']";
+    this.forgotPasswordBtn = '.oxd-text.oxd-text--p.orangehrm-login-forgot-header';
+    this.titleResetSuccess = '.oxd-text.oxd-text--h6.orangehrm-forgot-password-title';  
+    this.errorAlert = "div[role='alert'], .oxd-input-field-error, .error, .validation-error";
+    this.requiredText = "Required";
+  }
 
   visit() {
     cy.visit("/web/index.php/auth/login");
@@ -42,6 +45,14 @@ class LoginPage extends BasePage {
         cy.contains(this.requiredText).should("be.visible");
       }
     });
+  }
+
+  clickForgotPassword(){
+    this.click(this.forgotPasswordBtn)
+  }
+
+  verifyChangePasswordSuccesfully(){
+    this.visible(this.titleResetSuccess)
   }
 }
 

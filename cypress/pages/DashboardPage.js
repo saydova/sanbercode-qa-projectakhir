@@ -1,11 +1,13 @@
 import BasePage from "./BasePage";
 
 class DashboardPage extends BasePage {
-  // sidebar menu item (by text)
-  sidebarItem = ".oxd-main-menu-item--name";
-
-  // top breadcrumb title
-  breadcrumbTitle = "h6.oxd-topbar-header-breadcrumb-module";
+  constructor() {
+    super(); // panggil constructor parent
+    // sidebar menu item (by text)
+    this.sidebarItem = ".oxd-main-menu-item--name";
+    // top breadcrumb title
+    this.breadcrumbTitle = "h6.oxd-topbar-header-breadcrumb-module";
+  }
 
   /**
    * Click sidebar menu by name
